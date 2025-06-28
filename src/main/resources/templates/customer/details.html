@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <title>Customer Details</title>
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbar"></div>
+<div class="container mt-4">
+    <h2>Customer Details</h2>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title" th:text="${customer.name}"></h5>
+            <p class="card-text">
+                <strong>Age:</strong> <span th:text="${customer.age}"></span><br>
+                <strong>Contact:</strong> <span th:text="${customer.contactInfo}"></span><br>
+                <strong>Room:</strong> <span th:text="${customer.room.roomNumber} + ' (' + ${customer.room.type} + ')'"></span><br>
+                <strong>Check-in Date:</strong> <span th:text="${#temporals.format(customer.checkInDate, 'dd/MM/yyyy HH:mm')}"></span>
+            </p>
+        </div>
+    </div>
+    <div class="mt-3">
+        <a th:href="@{/orders/create/{id}(id=${customer.id})}" class="btn btn-info">Add Food Order</a>
+        <a th:href="@{/customers}" class="btn btn-secondary">Back to List</a>
+    </div>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

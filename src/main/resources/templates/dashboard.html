@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <title>Dashboard</title>
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbar"></div>
+<div class="container mt-4">
+    <h1 class="mb-4">Dashboard</h1>
+
+    <div class="row">
+        <div class="col-md-3 mb-4">
+            <div class="card text-white bg-primary">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Rooms</h5>
+                    <p class="card-text display-4" th:text="${roomCount}">0</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card text-white bg-success">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Customers</h5>
+                    <p class="card-text display-4" th:text="${customerCount}">0</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card text-white bg-warning">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Orders</h5>
+                    <p class="card-text display-4" th:text="${orderCount}">0</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card text-white bg-info">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Revenue</h5>
+                    <p class="card-text display-4">₹0</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header bg-dark text-white">
+            Quick Actions
+        </div>
+        <div class="card-body">
+            <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                <a href="/rooms" class="btn btn-primary me-md-2">Manage Rooms</a>
+                <a href="/customers/checkin" class="btn btn-success me-md-2">Check-in Customer</a>
+                <a href="/food" class="btn btn-warning me-md-2">Food Menu</a>
+                <a href="/checkout" class="btn btn-danger">Checkout</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <title>Checkout Customer</title>
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbar"></div>
+<div class="container mt-4">
+    <h2>Checkout Customer</h2>
+    <form th:action="@{/checkout}" method="post">
+        <div class="mb-3">
+            <label class="form-label">Select Customer</label>
+            <select class="form-select" name="customerId" required>
+                <option value="">Select a customer</option>
+                <option th:each="customer : ${customers}"
+                        th:value="${customer.id}"
+                        th:text="${customer.name} + ' - Room: ' + ${customer.room.roomNumber}"></option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Process Checkout</button>
+    </form>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

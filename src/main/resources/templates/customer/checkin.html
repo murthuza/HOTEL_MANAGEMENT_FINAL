@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <title>Customer Check-in</title>
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbar"></div>
+<div class="container mt-4">
+    <h2>Customer Check-in</h2>
+    <form th:action="@{/customers}" method="post" th:object="${customer}">
+        <div class="mb-3">
+            <label for="name" class="form-label">Full Name</label>
+            <input type="text" class="form-control" id="name" th:field="*{name}" required>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="age" class="form-label">Age</label>
+                <input type="number" class="form-control" id="age" th:field="*{age}" min="1" required>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="contactInfo" class="form-label">Contact Info</label>
+                <input type="text" class="form-control" id="contactInfo" th:field="*{contactInfo}" required>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="room" class="form-label">Assign Room</label>
+            <select class="form-select" id="room" name="roomId" required>
+                <option value="">Select a room</option>
+                <option th:each="room : ${availableRooms}"
+                        th:value="${room.id}"
+                        th:text="${room.roomNumber} + ' (' + ${room.type} + ') - ₹' + ${#numbers.formatDecimal(room.pricePerDay, 1, 2)}"></option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Check-in Customer</button>
+    </form>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

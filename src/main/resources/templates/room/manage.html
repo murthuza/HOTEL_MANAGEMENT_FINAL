@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <title>Room Management</title>
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbar"></div>
+<div class="container mt-4">
+    <h2>Room Management</h2>
+
+    <a th:href="@{/rooms/add}" class="btn btn-primary mb-3">Add New Room</a>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Room Number</th>
+            <th>Type</th>
+            <th>Price/Day</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="room : ${rooms}">
+            <td th:text="${room.roomNumber}"></td>
+            <td th:text="${room.type}"></td>
+            <td th:text="'₹' + ${#numbers.formatDecimal(room.pricePerDay, 1, 2)}"></td>
+            <td>
+                <span th:if="${room.available}" class="badge bg-success">Available</span>
+                <span th:unless="${room.available}" class="badge bg-danger">Occupied</span>
+            </td>
+            <td>
+                <a th:href="@{/rooms/edit/{id}(id=${room.id})}" class="btn btn-sm btn-warning">Edit</a>
+                <a th:href="@{/rooms/delete/{id}(id=${room.id})}" class="btn btn-sm btn-danger">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

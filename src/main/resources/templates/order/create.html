@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <title>Create Food Order</title>
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbar"></div>
+<div class="container mt-4">
+    <h2>Create Food Order for <span th:text="${customer.name}"></span></h2>
+    <form th:action="@{/orders/{customerId}(customerId=${customer.id})}" method="post">
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Select Food Item</label>
+                <select class="form-select" name="foodItemId" required>
+                    <option value="">Select food item</option>
+                    <option th:each="item : ${foodItems}"
+                            th:value="${item.id}"
+                            th:text="${item.name} + ' - ₹' + ${#numbers.formatDecimal(item.price, 1, 2)}"></option>
+                </select>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label class="form-label">Quantity</label>
+                <input type="number" class="form-control" name="quantity" min="1" value="1" required>
+            </div>
+            <div class="col-md-3 d-flex align-items-end mb-3">
+                <button type="submit" class="btn btn-primary">Add to Order</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="mt-4">
+        <h4>Current Orders</h4>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Food Item</th>
+                <th>Price (₹)</th>
+                <th>Quantity</th>
+                <th>Total (₹)</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order : ${orders}">
+                <td th:text="${order.foodItem.name}"></td>
+                <td th:text="${#numbers.formatDecimal(order.foodItem.price, 1, 2)}"></td>
+                <td th:text="${order.quantity}"></td>
+                <td th:text="${#numbers.formatDecimal(order.foodItem.price * order.quantity, 1, 2)}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <a th:href="@{/orders/list/{customerId}(customerId=${customer.id})}" class="btn btn-success">Finalize Order</a>
+    </div>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>
