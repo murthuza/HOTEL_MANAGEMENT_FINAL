@@ -67,8 +67,8 @@
                         <tr>
                             <td>
                                 SmartHotel<br>
-                                123 Hotel Street<br>
-                                Hotel City, HC 12345
+                                HITEC City<br>
+                                Hyderabad, Pin code: 500081
                             </td>
                             <td>
                                 [[${customer.name}]]<br>
@@ -91,27 +91,34 @@
                     Room [[${customer.room.roomNumber}]] ([[${customer.room.type}]])<br>
                     <small>
                         Check-in: [[${#temporals.format(customer.checkInDate, 'dd/MM/yyyy HH:mm')}]]<br>
-                        Check-out: [[${#temporals.format(checkoutDate, 'dd/MM/yyyy HH:mm')}]]
+                        Check-out: [[${#temporals.format(checkoutDate, 'dd/MM/yyyy HH:mm')}]]<br>
+                        Duration: [[${days}]] day(s)
                     </small>
                 </td>
                 <td>
                     ₹[[${#numbers.formatDecimal(customer.room.pricePerDay, 1, 2)}]] x [[${days}]] days<br>
-                    ₹[[${#numbers.formatDecimal(roomCost, 1, 2)}]]
+                    = ₹[[${#numbers.formatDecimal(roomCost, 1, 2)}]]
                 </td>
             </tr>
 
             <!-- Food Orders -->
-            <tr th:each="order : ${orders}">
+            <tr th:each="order : ${orders}" class="item">
                 <td>
                     [[${order.foodItem.name}]] x [[${order.quantity}]]
                 </td>
                 <td>₹[[${#numbers.formatDecimal(order.foodItem.price * order.quantity, 1, 2)}]]</td>
             </tr>
 
+            <!-- Subtotal (if needed) -->
+            <tr th:if="${not #lists.isEmpty(orders)}" class="item">
+                <td><strong>Food Subtotal</strong></td>
+                <td><strong>₹[[${#numbers.formatDecimal(foodTotal, 1, 2)}]]</strong></td>
+            </tr>
+
             <tr class="total">
                 <td></td>
                 <td>
-                    Total: ₹[[${#numbers.formatDecimal(bill, 1, 2)}]]
+                    <strong>Total: ₹[[${#numbers.formatDecimal(bill, 1, 2)}]]</strong>
                 </td>
             </tr>
         </table>
