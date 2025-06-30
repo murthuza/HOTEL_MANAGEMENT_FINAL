@@ -72,7 +72,7 @@
                             </td>
                             <td>
                                 [[${customer.name}]]<br>
-                                Room: [[${customer.room.roomNumber}]]<br>
+                                Room: [[${room.roomNumber}]]<br>
                                 Contact: [[${customer.contactInfo}]]
                             </td>
                         </tr>
@@ -88,7 +88,7 @@
             <!-- Room Charges -->
             <tr class="item">
                 <td>
-                    Room [[${customer.room.roomNumber}]] ([[${customer.room.type}]])<br>
+                    Room [[${room.roomNumber}]] ([[${room.type}]])<br>
                     <small>
                         Check-in: [[${#temporals.format(customer.checkInDate, 'dd/MM/yyyy HH:mm')}]]<br>
                         Check-out: [[${#temporals.format(checkoutDate, 'dd/MM/yyyy HH:mm')}]]<br>
@@ -96,7 +96,7 @@
                     </small>
                 </td>
                 <td>
-                    ₹[[${#numbers.formatDecimal(customer.room.pricePerDay, 1, 2)}]] x [[${days}]] days<br>
+                    ₹[[${#numbers.formatDecimal(room.pricePerDay, 1, 2)}]] x [[${days}]] days<br>
                     = ₹[[${#numbers.formatDecimal(roomCost, 1, 2)}]]
                 </td>
             </tr>

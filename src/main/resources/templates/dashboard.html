@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header">
+<head th:replace="~{fragments/header :: header}">
     <title>Dashboard</title>
 </head>
 <body>
-<div th:replace="fragments/navbar :: navbar"></div>
+
+<!-- ✅ Navbar -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<!-- ✅ Dashboard content in container -->
 <div class="container mt-4">
     <h1 class="mb-4">Dashboard</h1>
 
@@ -37,7 +41,7 @@
             <div class="card text-white bg-info">
                 <div class="card-body text-center">
                     <h5 class="card-title">Revenue</h5>
-                    <p class="card-text display-4">₹0</p>
+                    <p class="card-text display-4" th:text="'₹' + ${#numbers.formatDecimal(revenue ?: 0, 1, 2)}">₹0</p>
                 </div>
             </div>
         </div>
@@ -57,6 +61,9 @@
         </div>
     </div>
 </div>
-<div th:replace="fragments/footer :: footer"></div>
+
+<!-- ✅ Footer OUTSIDE the container -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
 </body>
 </html>

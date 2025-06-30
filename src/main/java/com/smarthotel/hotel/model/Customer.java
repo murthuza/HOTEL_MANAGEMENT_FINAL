@@ -20,7 +20,7 @@ public class Customer {
     private LocalDateTime checkInDate;
     private LocalDateTime checkOutDate;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "room_id")
     private Room room;
 }
