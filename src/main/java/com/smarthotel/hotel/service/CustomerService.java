@@ -28,16 +28,7 @@ public class CustomerService {
     public Optional<Customer> findById(Long id) {
         return customerRepository.findById(id);
     }
-    public Customer checkinCustomer(Customer customer, Long roomId) {
-        Room room = roomRepository.findById(roomId).orElseThrow();
-        room.setAvailable(false);
-        roomRepository.save(room);
 
-        customer.setRoom(room);
-        customer.setCheckInDate(LocalDateTime.now());
-
-        return customerRepository.save(customer);
-    }
     public void checkoutCustomer(Long id) {
         customerRepository.findById(id).ifPresent(customer -> {
             customer.setCheckOutDate(LocalDateTime.now());

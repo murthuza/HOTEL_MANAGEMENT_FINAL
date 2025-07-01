@@ -27,10 +27,23 @@ public class RoomController {
 
     @PostMapping
     public String saveRoom(@ModelAttribute Room room, Model model) {
-        if (roomService.roomNumberExists(room.getRoomNumber())) {
+        // Check if it's an update operation
+        if (room.getId() != null) {
+            Room existingRoom = roomService.findById(room.getId()).orElseThrow();
+
+            // Only check room number if it's changed
+            if (!existingRoom.getRoomNumber().equals(room.getRoomNumber()) &&
+                    roomService.roomNumberExists(room.getRoomNumber())) {
+                model.addAttribute("error", "Room number already exists");
+                return "room/form";
+            }
+        }
+        // For new rooms
+        else if (roomService.roomNumberExists(room.getRoomNumber())) {
             model.addAttribute("error", "Room number already exists");
             return "room/form";
         }
+
         roomService.saveRoom(room);
         return "redirect:/rooms";
     }

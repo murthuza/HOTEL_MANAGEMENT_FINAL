@@ -1,11 +1,12 @@
-<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark" xmlns:th="http://www.thymeleaf.org">
-    <div class="container-fluid">
-        <a class="navbar-brand" th:href="@{/dashboard}">SmartHotel</a>
+<!-- fragments/navbar.html -->
+<nav th:fragment="navbar" class="navbar navbar-expand-lg bg-primary navbar-dark shadow-sm" xmlns:th="http://www.thymeleaf.org">
+    <div class="container">
+        <a class="navbar-brand fw-bold" th:href="@{/dashboard}">SmartHotel</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/rooms}">Rooms</a>
                 </li>
@@ -19,10 +20,10 @@
                     <a class="nav-link" th:href="@{/checkout}">Checkout</a>
                 </li>
             </ul>
-            <div class="d-flex">
+            <div class="d-flex align-items-center">
                 <span class="navbar-text me-3">Welcome, <span th:text="${#authentication.principal.username}">User</span></span>
                 <form th:action="@{/logout}" method="post">
-                    <button class="btn btn-outline-light">Logout</button>
+                    <button class="btn btn-outline-light btn-sm">Logout</button>
                 </form>
             </div>
         </div>

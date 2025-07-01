@@ -3,10 +3,14 @@
 <head th:replace="fragments/header :: header">
     <title>Customer Check-in</title>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
+
+<!-- Navbar -->
 <div th:replace="fragments/navbar :: navbar"></div>
-<div class="container mt-4">
-    <h2>Customer Check-in</h2>
+
+<!-- Main Content -->
+<main class="container mt-4 flex-grow-1">
+    <h2 class="mb-4">Customer Check-in</h2>
     <form th:action="@{/customers}" method="post" th:object="${customer}">
         <div class="mb-3">
             <label for="name" class="form-label">Full Name</label>
@@ -31,9 +35,14 @@
                         th:text="${room.roomNumber} + ' (' + ${room.type} + ') - ₹' + ${#numbers.formatDecimal(room.pricePerDay, 1, 2)}"></option>
             </select>
         </div>
-        <button type="submit" class="btn btn-primary">Check-in Customer</button>
+        <button type="submit" class="btn btn-primary">
+            <i class="fas fa-user-check me-1"></i> Check-in Customer
+        </button>
     </form>
-</div>
+</main>
+
+<!-- Footer -->
 <div th:replace="fragments/footer :: footer"></div>
+
 </body>
 </html>

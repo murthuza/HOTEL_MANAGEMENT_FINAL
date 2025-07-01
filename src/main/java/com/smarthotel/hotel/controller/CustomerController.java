@@ -28,9 +28,17 @@ public class CustomerController {
     @PostMapping
     public String checkinCustomer(@ModelAttribute Customer customer,
                                   @RequestParam Long roomId) {
-        customerService.checkinCustomer(customer, roomId);
+        Room room = roomService.findById(roomId).orElseThrow();
+        room.setAvailable(false);
+        roomService.saveRoom(room);
+
+        customer.setRoom(room);
+        customer.setCheckInDate(LocalDateTime.now());
+        customerService.saveCustomer(customer);
+
         return "redirect:/customers";
     }
+
 
     @GetMapping
     public String listCustomers(Model model) {
