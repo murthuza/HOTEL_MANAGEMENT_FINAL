@@ -2,9 +2,12 @@ package com.smarthotel.hotel.controller;
 
 import com.smarthotel.hotel.model.Customer;
 import com.smarthotel.hotel.model.FoodOrder;
+import com.smarthotel.hotel.model.Room;
 import com.smarthotel.hotel.service.BillingService;
 import com.smarthotel.hotel.service.CustomerService;
 import com.smarthotel.hotel.service.OrderService;
+import com.smarthotel.hotel.service.RevenueService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -23,6 +26,7 @@ public class CheckoutController {
     private final CustomerService customerService;
     private final BillingService billingService;
     private final OrderService orderService;
+    private final RevenueService revenueService;
 
     @GetMapping
     public String checkoutForm(Model model) {
@@ -31,6 +35,7 @@ public class CheckoutController {
     }
 
     @PostMapping
+    @Transactional
     public String processCheckout(@RequestParam Long customerId, Model model) {
         log.info("Processing checkout for customer ID: {}", customerId);
 
@@ -39,14 +44,15 @@ public class CheckoutController {
             log.info("Found customer: {}", customer.getName());
 
             LocalDateTime checkoutDate = LocalDateTime.now();
+            Room room = customer.getRoom(); // Store room reference BEFORE checkout
 
             // Calculate days stayed
             LocalDateTime checkIn = customer.getCheckInDate();
             long days = Duration.between(checkIn, checkoutDate).toDays();
-            if (days == 0) days = 1; // At least one day
+            if (days == 0) days = 1;
 
             // Calculate room cost
-            double roomCost = days * customer.getRoom().getPricePerDay();
+            double roomCost = days * room.getPricePerDay();
 
             // Get all food orders
             List<FoodOrder> orders = orderService.findAllOrdersByCustomer(customerId);
@@ -58,17 +64,15 @@ public class CheckoutController {
 
             // Calculate total bill
             double totalBill = roomCost + foodTotal;
+            revenueService.addToRevenue(totalBill);
 
-            log.info("Days: {}, Room cost: {}, Food total: {}, Total bill: {}",
-                    days, roomCost, foodTotal, totalBill);
-
-            // Set checkout date and process checkout
-            customer.setCheckOutDate(checkoutDate);
+            // Process checkout (sets room to null)
             customerService.checkoutCustomer(customerId);
             orderService.markOrdersAsBilled(customerId);
 
-            // Pass all required data to template
+            // Pass room details explicitly
             model.addAttribute("customer", customer);
+            model.addAttribute("room", room); // Pass room separately
             model.addAttribute("checkoutDate", checkoutDate);
             model.addAttribute("days", days);
             model.addAttribute("roomCost", roomCost);

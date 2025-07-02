@@ -37,6 +37,8 @@ public class CustomerService {
                 room.setAvailable(true);
                 roomRepository.save(room);
             }
+            // Clear room assignment after checkout
+            customer.setRoom(null);
             customerRepository.save(customer);
         });
     }

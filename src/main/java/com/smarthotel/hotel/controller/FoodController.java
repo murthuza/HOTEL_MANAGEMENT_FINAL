@@ -3,9 +3,11 @@ package com.smarthotel.hotel.controller;
 import com.smarthotel.hotel.model.FoodItem;
 import com.smarthotel.hotel.service.FoodService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/food")
@@ -32,8 +34,15 @@ public class FoodController {
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteFoodItem(@PathVariable Long id) {
-        foodService.deleteFoodItem(id);
+    public String deleteFoodItem(@PathVariable Long id, Model model) {
+        try {
+            foodService.deleteFoodItem(id);
+        } catch (IllegalStateException e) {
+            model.addAttribute("error", e.getMessage());
+            model.addAttribute("foodItems", foodService.findAllFoodItems());
+            return "food/manage";
+        }
         return "redirect:/food";
     }
+
 }

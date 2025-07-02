@@ -39,6 +39,7 @@ public class CustomerController {
         return "redirect:/customers";
     }
 
+
     @GetMapping
     public String listCustomers(Model model) {
         model.addAttribute("customers", customerService.findAllActiveCustomers());

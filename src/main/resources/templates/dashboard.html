@@ -1,62 +1,81 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header">
+<head th:replace="~{fragments/header :: header}">
     <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
 </head>
 <body>
-<div th:replace="fragments/navbar :: navbar"></div>
-<div class="container mt-4">
-    <h1 class="mb-4">Dashboard</h1>
 
-    <div class="row">
-        <div class="col-md-3 mb-4">
-            <div class="card text-white bg-primary">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Rooms</h5>
-                    <p class="card-text display-4" th:text="${roomCount}">0</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 mb-4">
-            <div class="card text-white bg-success">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Customers</h5>
-                    <p class="card-text display-4" th:text="${customerCount}">0</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 mb-4">
-            <div class="card text-white bg-warning">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Orders</h5>
-                    <p class="card-text display-4" th:text="${orderCount}">0</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 mb-4">
-            <div class="card text-white bg-info">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Revenue</h5>
-                    <p class="card-text display-4">₹0</p>
-                </div>
-            </div>
-        </div>
-    </div>
+<!-- Navbar -->
+<div th:replace="~{fragments/navbar :: navbar}"></div>
 
-    <div class="card">
-        <div class="card-header bg-dark text-white">
-            Quick Actions
-        </div>
-        <div class="card-body">
-            <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-                <a href="/rooms" class="btn btn-primary me-md-2">Manage Rooms</a>
-                <a href="/customers/checkin" class="btn btn-success me-md-2">Check-in Customer</a>
-                <a href="/food" class="btn btn-warning me-md-2">Food Menu</a>
-                <a href="/checkout" class="btn btn-danger">Checkout</a>
+<!-- Dashboard Header -->
+<header class="dashboard-header text-center py-5 bg-primary text-white shadow-sm">
+    <div class="container">
+        <h1 class="fw-bold mb-1">Welcome to SmartHotel</h1>
+        <p class="lead">Your central hub for seamless hotel management</p>
+    </div>
+</header>
+
+<!-- Main Content -->
+<main class="content-wrapper py-5">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-3">
+                <div class="stat-card shadow-sm p-4 text-center bg-white rounded">
+                    <i class="fas fa-door-open fa-2x text-primary mb-2"></i>
+                    <h5 class="fw-bold">Rooms</h5>
+                    <p class="display-6 fw-semibold mb-0" th:text="${roomCount}">0</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card shadow-sm p-4 text-center bg-white rounded">
+                    <i class="fas fa-users fa-2x text-success mb-2"></i>
+                    <h5 class="fw-bold">Customers</h5>
+                    <p class="display-6 fw-semibold mb-0" th:text="${customerCount}">0</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card shadow-sm p-4 text-center bg-white rounded">
+                    <i class="fas fa-utensils fa-2x text-warning mb-2"></i>
+                    <h5 class="fw-bold">Orders</h5>
+                    <p class="display-6 fw-semibold mb-0" th:text="${orderCount}">0</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card shadow-sm p-4 text-center bg-white rounded">
+                    <i class="fas fa-rupee-sign fa-2x text-danger mb-2"></i>
+                    <h5 class="fw-bold">Revenue</h5>
+                    <p class="display-6 fw-semibold mb-0" th:text="'₹' + ${#numbers.formatDecimal(revenue ?: 0, 1, 2)}">₹0</p>
+                </div>
             </div>
         </div>
+
+        <!-- Quick Actions -->
+        <section class="quick-actions-card mt-5 p-4 bg-light rounded shadow-sm">
+            <h4 class="fw-bold mb-4">Quick Actions</h4>
+            <div class="d-flex flex-wrap gap-3 justify-content-center">
+                <a href="/rooms" class="btn btn-action btn-primary">
+                    <i class="fas fa-door-open me-2"></i>Manage Rooms
+                </a>
+                <a href="/customers/checkin" class="btn btn-action btn-success">
+                    <i class="fas fa-user-plus me-2"></i>Check-in Customer
+                </a>
+                <a href="/food" class="btn btn-action btn-warning text-dark">
+                    <i class="fas fa-utensils me-2"></i>Food Menu
+                </a>
+                <a href="/checkout" class="btn btn-action btn-danger">
+                    <i class="fas fa-sign-out-alt me-2"></i>Checkout
+                </a>
+            </div>
+        </section>
     </div>
-</div>
-<div th:replace="fragments/footer :: footer"></div>
+</main>
+
+<!-- Footer -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
 </body>
 </html>

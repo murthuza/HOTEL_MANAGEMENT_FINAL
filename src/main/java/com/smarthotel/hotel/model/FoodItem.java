@@ -17,4 +17,6 @@ public class FoodItem {
 
     @Column(nullable = false)
     private double price;
+
+    private boolean active = true;
 }

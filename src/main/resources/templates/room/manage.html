@@ -3,40 +3,57 @@
 <head th:replace="fragments/header :: header">
     <title>Room Management</title>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
+<!-- Navbar -->
 <div th:replace="fragments/navbar :: navbar"></div>
-<div class="container mt-4">
-    <h2>Room Management</h2>
 
-    <a th:href="@{/rooms/add}" class="btn btn-primary mb-3">Add New Room</a>
+<!-- Main Content -->
+<main class="container mt-4 flex-grow-1">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="mb-0">Room Management</h2>
+        <a th:href="@{/rooms/add}" class="btn btn-primary">
+            <i class="fas fa-plus me-1"></i> Add New Room
+        </a>
+    </div>
 
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>Room Number</th>
-            <th>Type</th>
-            <th>Price/Day</th>
-            <th>Status</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="room : ${rooms}">
-            <td th:text="${room.roomNumber}"></td>
-            <td th:text="${room.type}"></td>
-            <td th:text="'₹' + ${#numbers.formatDecimal(room.pricePerDay, 1, 2)}"></td>
-            <td>
-                <span th:if="${room.available}" class="badge bg-success">Available</span>
-                <span th:unless="${room.available}" class="badge bg-danger">Occupied</span>
-            </td>
-            <td>
-                <a th:href="@{/rooms/edit/{id}(id=${room.id})}" class="btn btn-sm btn-warning">Edit</a>
-                <a th:href="@{/rooms/delete/{id}(id=${room.id})}" class="btn btn-sm btn-danger">Delete</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+    <!-- ✅ Show error if present -->
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+    <div class="table-responsive shadow-sm rounded">
+        <table class="table table-hover align-middle">
+            <thead class="table-dark">
+            <tr>
+                <th>Room Number</th>
+                <th>Type</th>
+                <th>Price/Day</th>
+                <th>Status</th>
+                <th class="text-end">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="room : ${rooms}">
+                <td th:text="${room.roomNumber}"></td>
+                <td th:text="${room.type}"></td>
+                <td th:text="'₹' + ${#numbers.formatDecimal(room.pricePerDay, 1, 2)}"></td>
+                <td>
+                    <span th:if="${room.available}" class="badge bg-success">Available</span>
+                    <span th:unless="${room.available}" class="badge bg-danger">Occupied</span>
+                </td>
+                <td class="text-end">
+                    <a th:href="@{/rooms/edit/{id}(id=${room.id})}" class="btn btn-sm btn-outline-warning me-1">
+                        <i class="fas fa-edit"></i> Edit
+                    </a>
+                    <a th:href="@{/rooms/delete/{id}(id=${room.id})}" class="btn btn-sm btn-outline-danger">
+                        <i class="fas fa-trash"></i> Delete
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<!-- Footer -->
 <div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>
