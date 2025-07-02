@@ -1,13 +1,14 @@
-# Use an official OpenJDK image as base
+# Use OpenJDK 21 as base
 FROM openjdk:21-jdk
 
-# Add a volume pointing to /tmp
+# Mount /tmp as a volume
 VOLUME /tmp
 
-# Copy the built jar from target/ into the container
-# We assume your jar is named 'hotel.jar' after Maven build.
-# Adjust if needed.
+# Copy your built JAR to the container
 COPY target/*.jar app.jar
 
-# Run the jar file
+# ✅ Tell Docker what port to expose
+EXPOSE 8089
+
+# Run the JAR
 ENTRYPOINT ["java","-jar","/app.jar"]
