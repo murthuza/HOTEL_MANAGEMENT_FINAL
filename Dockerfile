@@ -1,5 +1,5 @@
 # Use OpenJDK 21 as base
-FROM openjdk:21-jdk
+FROM openjdk:17-jdk
 
 # Mount /tmp as a volume
 VOLUME /tmp
